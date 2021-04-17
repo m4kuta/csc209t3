@@ -1,0 +1,65 @@
+Q2: [ 6 marks] Short answer
+
+For each of the following code snippets, assume that the code leading up to the
+snippet is correct and complete.
+ i) Explain what might cause the specified return value. Be precise. 
+    it is not sufficient to say that an error occurred, or the call succeeded.  
+ii) Does the specified return value indicate that the process should terminate
+    immediately?  Explain your answer.
+
+a) 
+char *ptr = malloc(sizeof(char) * 10000);
+// returns NULL
+
+EXPLAIN CAUSE: Malloc returns NULL on error when its set size is not zero, as in the case above.
+
+SHOULD EXIT? Yes, an error has occured while allocated memory.
+
+
+b) Assume buf is correctly initialized, and that fd is an open descriptor 
+   on a socket.
+
+int n = read(fd, buf, sizeof(buf));
+// returns 0
+
+EXPLAIN CAUSE: Socket is closed.
+
+SHOULD EXIT? No, nothing wrong with a socket being closed and it does not constitute an error.
+
+
+c) 
+int status;
+int result = wait(&status);
+//returns -1
+
+EXPLAIN CAUSE: Child process encountered an error or the parent calling wait() has no children.
+
+SHOULD EXIT? Not necessarily. The problem may be to do with what happens in the child proccess, not necessarily with the calling parent. Furthermore, a failed wait status may be part of normal operation for this function.
+
+
+d) int ret = fork();
+// returns -1
+
+EXPLAIN CAUSE: Parent failed to fork, no child process is created.
+
+SHOULD EXIT? Yes, there isn't a circumstance where a failed fork() is useful or part of normal function operation.
+
+
+e) int ret = fork();
+// returns 0
+
+EXPLAIN CAUSE: Calling parent successfully forked, and the return value of 0 is given to the child process.
+
+SHOULD EXIT?  No, fork() succeeded and is functioning as inteded by identifying the child process.
+
+
+f) Assume listenfd is the return value of socket, and bind and listen have
+   also been called on listenfd.  All calls have been successful. 
+   rset has been set up appropriately.
+
+FD_ISSET(listenfd, &rset);
+// returns 1
+
+EXPLAIN CAUSE: The socket descriptor listenfd is in rset.
+
+SHOULD EXIT? No, nothing wrong here. listenfd could have been set into rset by a select() call, meaning it is ready to be interacted with.
